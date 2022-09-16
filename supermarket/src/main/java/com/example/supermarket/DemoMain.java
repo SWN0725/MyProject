@@ -28,10 +28,10 @@ public class DemoMain {
         Fruit mangoFruit = new Fruit("mango", "芒果", new BigDecimal("20"));
         supermarket.updateFruitType(mangoFruit.getType(), mangoFruit);
 
+        // 顾客B苹果、草莓和芒果追加芒果
         shoppingCard = new ShoppingCard(supermarket);
         shoppingCard.addToCard("apple", new BigDecimal("5.3"));
         shoppingCard.addToCard("strawberry", new BigDecimal("3.5"));
-        // 顾客B苹果、草莓和芒果追加芒果
         shoppingCard.addToCard("mango", new BigDecimal("2"));
 
         // 订单结算
