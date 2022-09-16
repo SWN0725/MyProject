@@ -14,9 +14,11 @@ public class DemoMain {
         supermarket.updateFruitType(appleFruit.getType(), appleFruit);
         supermarket.updateFruitType(strawberryFruit.getType(), strawberryFruit);
         supermarket.setSupermarketSettle(new RegularSupermarketSettle());
-        // 顾客A购买苹果和草莓
+
+        // 顾客A 购买苹果和草莓
         shoppingCard.addToCard("apple", new BigDecimal("5.3"));
         shoppingCard.addToCard("strawberry", new BigDecimal("3.5"));
+
         // 订单结算
         try {
             System.out.println("正价销售苹果和草莓：" + shoppingCard.allCost());
@@ -28,7 +30,7 @@ public class DemoMain {
         Fruit mangoFruit = new Fruit("mango", "芒果", new BigDecimal("20"));
         supermarket.updateFruitType(mangoFruit.getType(), mangoFruit);
 
-        // 顾客B苹果、草莓和芒果追加芒果
+        // 顾客B 购买苹果、草莓 追加芒果
         shoppingCard = new ShoppingCard(supermarket);
         shoppingCard.addToCard("apple", new BigDecimal("5.3"));
         shoppingCard.addToCard("strawberry", new BigDecimal("3.5"));
@@ -42,14 +44,17 @@ public class DemoMain {
         }
 
         /** 3. 促销活动 **/
-        shoppingCard = new ShoppingCard(supermarket);
-        shoppingCard.addToCard("apple", new BigDecimal("5.3"));
-        shoppingCard.addToCard("strawberry", new BigDecimal("3.5"));
-        shoppingCard.addToCard("mango", new BigDecimal("2"));
         // 超市设置草莓打折
         DiscountSupermarketSettle discountSupermarketSettle = new DiscountSupermarketSettle();
         discountSupermarketSettle.updateDiscount(strawberryFruit.getType(), new BigDecimal("0.8"));
         supermarket.setSupermarketSettle(discountSupermarketSettle);
+
+        // 顾客C 购买苹果、草莓和芒果
+        shoppingCard = new ShoppingCard(supermarket);
+        shoppingCard.addToCard("apple", new BigDecimal("5.3"));
+        shoppingCard.addToCard("strawberry", new BigDecimal("3.5"));
+        shoppingCard.addToCard("mango", new BigDecimal("2"));
+
         // 订单结算
         try {
             System.out.println("促销活动：" + shoppingCard.allCost());
@@ -57,13 +62,16 @@ public class DemoMain {
             System.out.println("促销活动：结算失败，" + e.getMessage());
         }
 
-        /** 4. 满100减10 **/
+        /** 4. 满减优惠 满100减10 **/
+        ReduceSupermarketSettle reduceSupermarketSettle = new ReduceSupermarketSettle(new BigDecimal("100"), new BigDecimal("10"), discountSupermarketSettle);
+        supermarket.setSupermarketSettle(reduceSupermarketSettle);
+
+        // 顾客C 购买苹果、草莓和芒果
         shoppingCard = new ShoppingCard(supermarket);
         shoppingCard.addToCard("apple", new BigDecimal("5.3"));
         shoppingCard.addToCard("strawberry", new BigDecimal("3.5"));
         shoppingCard.addToCard("mango", new BigDecimal("2"));
-        ReduceSupermarketSettle reduceSupermarketSettle = new ReduceSupermarketSettle(new BigDecimal("100"), new BigDecimal("10"), discountSupermarketSettle);
-        supermarket.setSupermarketSettle(reduceSupermarketSettle);
+
         // 订单结算
         try {
             System.out.println("满100减10：" + shoppingCard.allCost());
